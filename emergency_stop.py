@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 import sys, os, pwd, time
 import RPi.GPIO as GPIO
 import httplib
@@ -53,8 +54,12 @@ def printer_on():
 def octoprint_restart():	
 	call(["service", "octoprint", "restart"])
 	log("[octoprint restarted]")
-
-def emergeny_stop():
+	
+def service_restart():
+	log("[restart emergency_stop service]")	
+	call(["service", "emergency_stop", "restart"])
+		
+def emergency_stop():
 	log("[emergeny stop start]")
 	state = GPIO.input(PIN_POWER)
 	printer_off()
@@ -63,18 +68,14 @@ def emergeny_stop():
 	if state:
 		printer_on()
 	log("[emergeny stop complete]")
-	
-def ke():
-	log("[reinitializing emergeny button]")	
-	call(["service", "emergency_stop", "restart"])
-		
+
 def check_button(channel):
 	state = GPIO.input(PIN_BUTTON)
 	log("Detected button [%s] pressed [%s]? !"%(channel, state))
 	if not state: #safety pin 2
 		log("Buton [%s]!"%state)
-		emergeny_stop()
-		ke()
+		emergency_stop()
+		service_restart()
 	
 if __name__ == "__main__":
 	user = get_username() 
@@ -85,11 +86,9 @@ if __name__ == "__main__":
 		GPIO.setup(PIN_POWER, GPIO.OUT)		
 
 		if len(sys.argv) > 1 and sys.argv[1] == "run":			#run from command line (called from octoprint system menu)
-			emergeny_stop()
+			emergency_stop()
 		elif len(sys.argv) > 1 and sys.argv[1] == "reset":		#reset the printer board only
 			printer_reset()	
-		elif len(sys.argv) > 1 and sys.argv[1] == "ke":			#restart service 
-			ke()
 		else:													#start as service
 			GPIO.add_event_detect(PIN_BUTTON, GPIO.FALLING, callback=check_button, bouncetime=BOUNCE) #bouncetime - safety pin 1
 			try:

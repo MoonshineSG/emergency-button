@@ -38,8 +38,6 @@ systemctl enable emergency_stop.service
 ```
 
 ## other options
-- restart service 
-`sudo /home/pi/emergency_stop.py ke`
 
 - run from command line (called from octoprint system menu)
 `sudo /home/pi/emergency_stop.py run`
