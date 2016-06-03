@@ -1,9 +1,9 @@
-# Emergency button for the Octoprint 
+# Emergency button for the 3D printer (via RPi) 
 
 
 ![screenshot](schema.png)
 
-use shielded cable for the button
+use shielded cable for the button. this, together with the capacitor will help with interferences. last thing you need is fake emergency stops :D
 
 ![screenshot](button.png)
 
