@@ -56,8 +56,8 @@ def octoprint_restart():
 	log("[octoprint restarted]")
 	
 def service_restart():
-	log("[restart emergency_stop service]")	
 	call(["service", "emergency_stop", "restart"])
+	log("[emergency_stop service restarted]")	
 		
 def emergency_stop():
 	log("[emergeny stop start]")
