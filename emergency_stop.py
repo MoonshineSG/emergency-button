@@ -87,8 +87,7 @@ for v in smart_heads.values():
 	v[0].append(EMPTY_RID) #known value
 	
 for k, v in smart_heads.items():
-	rs =  1 / sum([ 1.0 / float(x) for x in v[0]])
-	v[0] = int(rs)
+	v[0] = int( 1 / sum( [ 1.0 / float(x) for x in v[0] ] ) )
 	#print "%s => %s"%(k, v[0])
 
 #map resistor value to RID 
@@ -231,9 +230,8 @@ def send_led_command(led, status):
 def almost_equal(a, b, tolerance = 15): 
 	bt = b * tolerance / 100
 	#print "tolerance on %s = %s"%(b, bt)
-	if a < b - bt: return False
-	if a > b + bt: return False
-	return True
+	if b - bt < a < b + bt: return True
+	return False
 
 def read_resistor_value ():
 	try:
